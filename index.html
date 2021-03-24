@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Simon</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <button class="red box" id="red-box" onclick="playerClickedColor('red')"></button>
+            <button class="green box" id="green-box" onclick="playerClickedColor('green')"></button>
+            <button class="blue box" id="blue-box" onclick="playerClickedColor('blue')"></button>
+            <button class="yellow box" id="yellow-box" onclick="playerClickedColor('yellow')"></button>
+        </div>
+        <button id="startButton" class="start-btn" onclick="playSimonTurn()">Start</button>
+        <script src="script.js"></script>
+    </body>
+</html>
