@@ -51,7 +51,6 @@ function playerClickedColor(color) {
     } else {
       playerPicks = [];
       i = 1;
-      isPlayersTurn = false;
       setTimeout(() => {
         playSimonTurn();
       }, 3000);
