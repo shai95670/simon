@@ -1,117 +1,84 @@
-let simonPicks = []
-let playerPicks = []
-let i = 1
+let simonPicks = [];
+let playerPicks = [];
 
-const colorSounds = {
+const colorSoundsUrls = {
   red: 'https://s3.amazonaws.com/freecodecamp/simonSound1.mp3',
-  green: 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3',
+  green: 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3',
   blue: 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3',
-  yellow: 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3',
-}
-const colors = Object.keys(colorSounds)
-
-/*
-When start is clicked we start the game interval
-the game starts to run, the simon goes first
-durnig that time the simon boxes are not clickable to the 
-player
-when the simon is done, the buttons becomev clickable and the player can start his turn
-*/
-
-function getElemById(id) {
-  return document.getElementById(id);
+  yellow: 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3',
 }
 
-function isPicksMatch() {
-  for (let i = 0, l = simonPicks.length; i < l; i++) {
-    if (simonPicks[i] !== playerPicks[i]) return false;
-  }
-  return true;
-}
+const colors = Object.keys(colorSoundsUrls)
 
-function createOutlineEffect(color) {
-  addRemoveOutlineClass(getElemById(`${color}-box`));
-  setTimeout(() => {
-    addRemoveOutlineClass(getElemById(`${color}-box`), 'remove');
-  }, 100);
-}
+function isPickMatch(color) {
+  const currentPlayerPickIndex = playerPicks.length - 1;
+  return simonPicks.at(currentPlayerPickIndex) === color ? true : false; 
+};
 
-function isSameNumOfPicks() {
-  return simonPicks.length === playerPicks.length;
-}
+function createBlurEffect(color) {
+  const simonBox = document.querySelector(`#${color}-box`);
+  simonBox.classList.toggle('blur');
+  setTimeout(() => { simonBox.classList.toggle('blur') }, 600);
+};
 
 function playerClickedColor(color) {
   playerPicks.push(color);
-  playAudio(getMp3Url(color));
-  createOutlineEffect(color);
-
-  if (isSameNumOfPicks()) {
-    if (!isPicksMatch()) {
-      setGameOver();
-    } else {
+  if (isPickMatch(color)) {
+    const audioPlayer = new Audio();
+    audioPlayer.src = colorSoundsUrls[color];
+    audioPlayer.play();
+    createBlurEffect(color);
+    if (playerPicks.length === simonPicks.length) {
       playerPicks = [];
-      i = 1;
-      setTimeout(() => {
-        playSimonTurn();
-      }, 3000);
+      setTimeout(() => { playSimonTurn() }, 2000);
     };
-  };
-}
-
-function getRandColor() {
-  return colors[Math.floor(Math.random() * colors.length)];
-}
-
-// disable all simon buttons
-function disableEnableButtons(mode = 'disable') {
-  colors.forEach((color) => {
-    let elem = getElemById(`${color}-box`);
-    elem.disabled = mode === 'disable' ? true : false;
-  });
-}
-
-function addRemoveOutlineClass(elem, mode = 'add') {
-  if (mode === 'add') {
-    elem.classList.add('out-line');
   } else {
-    elem.classList.remove('out-line');
+    console.log('game over!')
+    simonPicks = [];
+    playerPicks = [];
+    setTimeout(() => { playSimonTurn() }, 2000);
   };
 }
 
-function setGameOver() {
-  disableEnableButtons('disable');
-  console.log('game over');
-}
+function toggleDisableSimonBoxes() {
+  const simonBoxes = document.querySelectorAll(`.box`);
+  simonBoxes.forEach((simonBox) => {
+    simonBox.disabled = !simonBox.disabled;
+  });
+};
 
-// Side efect - return an audio obj
-function playAudio(mp3Url) {
-  const audio = new Audio(mp3Url);
-  audio.play();
-  return audio;
-}
+const playSimonColorAudioSequence = (simonPicks, colorSoundsUrls) => {
+  const audioPlayer = new Audio();  
 
-function getMp3Url(color) {
-  return colorSounds[color];
-}
+  const playNextSound = () => {
+    const currentColor = simonPicks[colorIndex++];
+    audioPlayer.src = colorSoundsUrls[currentColor];
+    audioPlayer.currentTime = 0;
+    playSound();
+    createBlurEffect(currentColor);
+  };
+
+  const playSound = () => {
+    audioPlayer.play();
+  };
+
+  let colorIndex = 0;
+  if (simonPicks.length) { 
+    playNextSound();
+
+    audioPlayer.addEventListener('ended', () => {
+      if (colorIndex < simonPicks.length) {
+        playNextSound();
+      };
+    });
+  }
+};
+
 
 function playSimonTurn() {
-  disableEnableButtons();
-  simonPicks.push(getRandColor());
-  const firstColor = simonPicks[0];
-  const audio = playAudio(getMp3Url(firstColor));
-  createOutlineEffect(firstColor);
-
-  audio.onended = () => {
-    if (i < simonPicks.length) {
-      let color = simonPicks[i];
-      audio.src = getMp3Url(color);
-      audio.play();
-      createOutlineEffect(color);
-      i++;
-    };
-
-    if (i === simonPicks.length) {
-      disableEnableButtons('enable');
-    };
-  };
+  toggleDisableSimonBoxes();
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+  simonPicks.push(randomColor);
+  playSimonColorAudioSequence(simonPicks, colorSoundsUrls);
+  setTimeout(() => { toggleDisableSimonBoxes(); }, 1000 * simonPicks.length)
 };
