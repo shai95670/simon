@@ -14,12 +14,15 @@
     </head>
     <body>
         <div class="container">
-            <button class="red box" id="red-box" onclick="playerClickedColor('red')"></button>
-            <button class="green box" id="green-box" onclick="playerClickedColor('green')"></button>
-            <button class="blue box" id="blue-box" onclick="playerClickedColor('blue')"></button>
-            <button class="yellow box" id="yellow-box" onclick="playerClickedColor('yellow')"></button>
+            <div class="grid-container" id="simon">
+                <button class="red box" id="red-box" onclick="playerClickedColor('red')"></button>
+                <button class="green box" id="green-box" onclick="playerClickedColor('green')"></button>
+                <button class="blue box" id="blue-box" onclick="playerClickedColor('blue')"></button>
+                <button class="yellow box" id="yellow-box" onclick="playerClickedColor('yellow')"></button>
+            </div>
+            <button id="startButton" class="start-btn" onclick="startGame()">Start</button>
+            <p id="game-over-phrase" class="hide">Game Over, Please Press "START" Button</p>
         </div>
-        <button id="startButton" class="start-btn" onclick="playSimonTurn()">Start</button>
         <script src="script.js"></script>
     </body>
 </html>

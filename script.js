@@ -2,26 +2,27 @@ let simonPicks = [];
 let playerPicks = [];
 
 const colorSoundsUrls = {
-  red: 'https://s3.amazonaws.com/freecodecamp/simonSound1.mp3',
-  green: 'https://s3.amazonaws.com/freecodecamp/simonSound2.mp3',
-  blue: 'https://s3.amazonaws.com/freecodecamp/simonSound3.mp3',
-  yellow: 'https://s3.amazonaws.com/freecodecamp/simonSound4.mp3',
-}
+  red: "https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
+  green: "https://s3.amazonaws.com/freecodecamp/simonSound2.mp3",
+  blue: "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
+  yellow: "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3",
+};
+const startButton = document.querySelector('#startButton');
+const gameOverPharase = document.querySelector('#game-over-phrase');
+const colors = ['red', 'green', 'blue', 'yellow'];
 
-const colors = Object.keys(colorSoundsUrls)
-
-function isPickMatch(color) {
+const isPickMatch = (color) => {
   const currentPlayerPickIndex = playerPicks.length - 1;
   return simonPicks.at(currentPlayerPickIndex) === color ? true : false; 
 };
 
-function createBlurEffect(color) {
+const createBlurEffect = (color) => {
   const simonBox = document.querySelector(`#${color}-box`);
   simonBox.classList.toggle('blur');
   setTimeout(() => { simonBox.classList.toggle('blur') }, 600);
 };
 
-function playerClickedColor(color) {
+const playerClickedColor = (color) => {
   playerPicks.push(color);
   if (isPickMatch(color)) {
     const audioPlayer = new Audio();
@@ -33,18 +34,16 @@ function playerClickedColor(color) {
       setTimeout(() => { playSimonTurn() }, 2000);
     };
   } else {
-    console.log('game over!')
     simonPicks = [];
     playerPicks = [];
-    setTimeout(() => { playSimonTurn() }, 2000);
+    gameOverPharase.classList.remove('hide');
+    startButton.classList.remove('hide');
   };
 }
 
-function toggleDisableSimonBoxes() {
+const toggleDisableSimonBoxes = () => {
   const simonBoxes = document.querySelectorAll(`.box`);
-  simonBoxes.forEach((simonBox) => {
-    simonBox.disabled = !simonBox.disabled;
-  });
+  simonBoxes.forEach(simonBox => simonBox.disabled = !simonBox.disabled);
 };
 
 const playSimonColorAudioSequence = (simonPicks, colorSoundsUrls) => {
@@ -74,11 +73,16 @@ const playSimonColorAudioSequence = (simonPicks, colorSoundsUrls) => {
   }
 };
 
-
-function playSimonTurn() {
+const playSimonTurn = () => {
   toggleDisableSimonBoxes();
   const randomColor = colors[Math.floor(Math.random() * colors.length)];
   simonPicks.push(randomColor);
   playSimonColorAudioSequence(simonPicks, colorSoundsUrls);
   setTimeout(() => { toggleDisableSimonBoxes(); }, 1000 * simonPicks.length)
+};
+
+const startGame = () => {
+  startButton.classList.add('hide');
+  gameOverPharase.classList.add('hide');
+  playSimonTurn();
 };

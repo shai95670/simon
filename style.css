@@ -1,38 +1,28 @@
 body {
   background-color: black;
-  text-align: center;
-}
-
-.container {
-  margin: auto;
-  display: grid;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 100px;
-}
-
-.out-line {
-  border: 6px solid white;
-}
-
-.blur {
-  opacity: 0.6
-}
-
-div {
-  width: 400px;
-  height: 200px;
-  margin: 6px;
-  animation-duration: 1s;
 }
 
 button {
   border-radius: 0.4rem;
-  outline: none;
 }
 
-.box {
-  width: 50%;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grid-container {
+  margin: auto;
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: 100px 100px;
+  grid-template-rows: 100px 100px;
+  gap: 6px
+}
+
+.blur {
+  opacity: 0.6
 }
 
 .red {
@@ -53,19 +43,26 @@ button {
 
 .start-btn {
     margin-top: 20px;
-    width: 60px;
     height: 60px;
-    border-radius: 50%;
+    border-radius: 0.4rem;
     text-transform: uppercase;
-    background-color: darkgrey;
-    box-shadow: 0 8px 6px -6px white;
+    background-color: green;
     color: black;
     font-weight: 900;
     font-size: 13px;
+    cursor: pointer;
+    width: 4rem;
 }
 
-.start-btn:active {
-  background-color: #a9a9a9c2;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+#game-over-phrase {
+  color: white;
+  font-size: 1.4rem
+}
+
+.show {
+  visibility: visible;
+}
+
+.hide {
+  visibility: hidden;
 }
