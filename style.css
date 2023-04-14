@@ -4,6 +4,7 @@ body {
 
 button {
   border-radius: 0.4rem;
+  border: none
 }
 
 .container {
@@ -47,11 +48,11 @@ button {
     border-radius: 0.4rem;
     text-transform: uppercase;
     background-color: green;
-    color: black;
+    color: white;
     font-weight: 900;
     font-size: 13px;
     cursor: pointer;
-    width: 4rem;
+    width: 5rem;
 }
 
 #game-over-phrase {
@@ -59,8 +60,11 @@ button {
   font-size: 1.4rem
 }
 
-.show {
-  visibility: visible;
+#simon-logo {
+  font-size: 5rem;
+  color: white;
+  font-family: monospace;
+  letter-spacing: 7px;
 }
 
 .hide {

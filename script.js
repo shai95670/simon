@@ -7,9 +7,12 @@ const colorSoundsUrls = {
   blue: "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
   yellow: "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3",
 };
+const colors = ['red', 'green', 'blue', 'yellow'];
+
 const startButton = document.querySelector('#startButton');
 const gameOverPharase = document.querySelector('#game-over-phrase');
-const colors = ['red', 'green', 'blue', 'yellow'];
+const simon = document.querySelector('#simon');
+const simonLogo = document.querySelector('#simon-logo');
 
 const isPickMatch = (color) => {
   const currentPlayerPickIndex = playerPicks.length - 1;
@@ -38,8 +41,9 @@ const playerClickedColor = (color) => {
     playerPicks = [];
     gameOverPharase.classList.remove('hide');
     startButton.classList.remove('hide');
+    simon.classList.add('hide');
   };
-}
+};
 
 const toggleDisableSimonBoxes = () => {
   const simonBoxes = document.querySelectorAll(`.box`);
@@ -84,5 +88,7 @@ const playSimonTurn = () => {
 const startGame = () => {
   startButton.classList.add('hide');
   gameOverPharase.classList.add('hide');
+  simonLogo.classList.add('hide');
+  simon.classList.remove('hide');
   playSimonTurn();
 };
